@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ScratchCard from './components/ScratchCard.tsx';
 
 const CHROME_STORE_URL =
   'https://chromewebstore.google.com/detail/coffee-time/djekodpjcikodhoplmegjflogbkhkehk';
@@ -28,7 +29,7 @@ export default function App() {
       </div>
 
       {/* Top Navigation Bar (Single section, no extra buttons) */}
-      <header className="relative z-10 w-full max-w-6xl mx-auto px-6 py-6 md:py-8 flex items-center justify-between">
+      <header className="relative z-10 w-full max-w-6xl mx-auto px-6 py-5 md:py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-stone-900/80 border border-stone-800/80 shadow-md p-1 flex items-center justify-center backdrop-blur-md">
             <img
@@ -45,12 +46,8 @@ export default function App() {
           </span>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-medium text-stone-400">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span className="text-stone-300">Available on Chrome Web Store</span>
+        <div className="flex items-center gap-2 shrink-0">
+          <ScratchCard secretText="Fm3pkq8odvYZuALyC76AKumwL7VRfhCSFRiwxgLJpump" />
         </div>
       </header>
 
