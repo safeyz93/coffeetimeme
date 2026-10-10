@@ -1,0 +1,6 @@
+{
+  "name": "Coffee Time - Chrome Extension",
+  "description": "Minimalist single-section landing page for the Coffee Time Chrome extension.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

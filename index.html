@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" class="h-full bg-stone-950 text-stone-100">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        try {
+          var realFetch = window.fetch;
+          var fetchHandler = realFetch;
+          Object.defineProperty(window, 'fetch', {
+            configurable: true,
+            enumerable: true,
+            get: function() {
+              return fetchHandler;
+            },
+            set: function(val) {
+              fetchHandler = val;
+            }
+          });
+        } catch (err) {}
+
+        window.addEventListener('error', function(e) {
+          if (
+            (e.filename && e.filename.indexOf('chrome-extension://') !== -1) ||
+            (e.message && e.message.indexOf('Cannot set property fetch of #<Window>') !== -1)
+          ) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function(e) {
+          if (
+            e.reason &&
+            typeof e.reason.message === 'string' &&
+            e.reason.message.indexOf('Cannot set property fetch of #<Window>') !== -1
+          ) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        }, true);
+      })();
+    </script>
+    <link rel="icon" type="image/png" href="/icon128.png" />
+    <title>Coffee Time - Chrome Extension</title>
+    <meta name="description" content="Minimalist single-section landing page for the Coffee Time Chrome extension." />
+    <meta property="og:title" content="Coffee Time - Chrome Extension" />
+    <meta property="og:description" content="Minimalist single-section landing page for the Coffee Time Chrome extension." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/icon128.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="h-full m-0 p-0 antialiased selection:bg-amber-800/40 selection:text-amber-100 overflow-hidden">
+    <div id="root" class="h-full"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
