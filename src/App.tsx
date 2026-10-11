@@ -29,7 +29,7 @@ export default function App() {
       </div>
 
       {/* Top Navigation Bar (Single section, no extra buttons) */}
-      <header className="relative z-10 w-full max-w-6xl mx-auto px-6 py-5 md:py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <header className="relative z-10 w-full px-4 sm:px-8 md:px-12 py-5 md:py-7 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-stone-900/80 border border-stone-800/80 shadow-md p-1 flex items-center justify-center backdrop-blur-md">
             <img
