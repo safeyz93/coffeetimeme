@@ -48,7 +48,7 @@ export default function App() {
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <ScratchCard secretText="cofezim4M95pADVk33tZkXJjdkAZjH3cyimL94d1BdP" />
+          <ScratchCard secretText="9ds5FiafsJkbLK4Fri9xjC9AtR4fJx5RH8kbayR6pump" />
         </div>
       </header>
 
