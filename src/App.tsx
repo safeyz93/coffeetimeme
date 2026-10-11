@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ScratchCard from './components/ScratchCard.tsx';
 
 const CHROME_STORE_URL =
   'https://chromewebstore.google.com/detail/coffee-time/djekodpjcikodhoplmegjflogbkhkehk';
@@ -45,10 +44,6 @@ export default function App() {
           <span className="hidden sm:inline-block text-xs font-mono text-stone-300 bg-stone-800/60 px-2 py-0.5 rounded border border-stone-700/50">
             v3.3.1
           </span>
-        </div>
-
-        <div className="flex items-center gap-2 shrink-0">
-          <ScratchCard secretText="9ds5FiafsJkbLK4Fri9xjC9AtR4fJx5RH8kbayR6pump" />
         </div>
       </header>
 
