@@ -13,12 +13,13 @@ export default function App() {
       <div className="absolute inset-0 z-0">
         <img
           src="/coffee-bg.jpg"
-          alt="Warm coffee shop atmosphere"
+          alt="Golden retriever in cozy coffee shop"
+          referrerPolicy="no-referrer"
           className="w-full h-full object-cover object-center scale-105 transition-transform duration-1000 ease-out"
         />
-        {/* Cinematic dark coffee overlay with warm vignette */}
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/85 via-stone-950/75 to-stone-950/90 backdrop-blur-[2px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(217,119,6,0.18)_0%,rgba(12,10,9,0.85)_75%)]" />
+        {/* Soft atmospheric overlay with subtle vignette for text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/45 to-stone-950/80" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(12,10,9,0.25)_0%,rgba(12,10,9,0.75)_85%)]" />
       </div>
 
       {/* Floating Ambient Warm Motes */}
@@ -47,7 +48,7 @@ export default function App() {
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <ScratchCard secretText="Fm3pkq8odvYZuALyC76AKumwL7VRfhCSFRiwxgLJpump" />
+          <ScratchCard secretText="cofezim4M95pADVk33tZkXJjdkAZjH3cyimL94d1BdP" />
         </div>
       </header>
 
