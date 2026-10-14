@@ -6,9 +6,6 @@ const CHROME_STORE_URL =
 const WALLET_ADDRESS = 'DnEkiNhstiwfMaqFUHi4bAbSwPNHk28hTLUZGYw2pump';
 
 const TELEGRAM_URL = 'https://t.me/coffetimefortrader';
-const GITHUB_URL = 'https://github.com/safeyz93/coffee-time';
-const PRIVACY_URL =
-  'https://github.com/safeyz93/coffee-time/blob/main/docs/privacy-policy.html';
 
 const HOW_STEPS = [
   {
@@ -51,7 +48,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'I found a bug or have an idea.',
-    a: 'Open an issue on GitHub, or drop a note in the Telegram group. Both are linked in the footer below.',
+    a: 'Drop a note in the Telegram group — it is linked in the footer below.',
   },
 ];
 
@@ -519,26 +516,6 @@ export default function App() {
                     className="transition-colors hover:text-brand-peach"
                   >
                     Telegram group
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={GITHUB_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="transition-colors hover:text-brand-peach"
-                  >
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={PRIVACY_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="transition-colors hover:text-brand-peach"
-                  >
-                    Privacy policy
                   </a>
                 </li>
               </ul>
