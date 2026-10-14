@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import IntroGate from './components/IntroGate';
 
 const CHROME_STORE_URL =
   'https://chromewebstore.google.com/detail/coffee-time/djekodpjcikodhoplmegjflogbkhkehk';
@@ -53,6 +54,7 @@ const FAQ_ITEMS = [
 ];
 
 export default function App() {
+  const [entered, setEntered] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isCursorHovered, setIsCursorHovered] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -72,6 +74,9 @@ export default function App() {
       className="relative min-h-screen w-full overflow-x-hidden text-brand-text"
       style={{ backgroundColor: 'var(--color-brand-bg)', fontFamily: 'var(--font-geist)' }}
     >
+      {/* ===== Intro gate — full-screen curtain shown before the site ===== */}
+      {!entered && <IntroGate onEnter={() => setEntered(true)} />}
+
       {/* ===== Ambient background — fixed, so it holds still while the page scrolls ===== */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div
@@ -103,7 +108,10 @@ export default function App() {
       </div>
 
       {/* ===== Nav / Top Bar ===== */}
-      <nav className="sticky top-0 z-50 w-full border-b border-brand-line-soft bg-brand-bg/85 backdrop-blur-md">
+      <nav
+        inert={!entered}
+        className="sticky top-0 z-50 w-full border-b border-brand-line-soft bg-brand-bg/85 backdrop-blur-md"
+      >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8">
           <a href="#top" className="flex shrink-0 items-center gap-2.5">
             <img src="/icon128.png" alt="Coffee Time" className="h-7 w-7 object-contain" />
@@ -195,7 +203,7 @@ export default function App() {
         </div>
       </nav>
 
-      <main id="top" className="relative z-10">
+      <main id="top" inert={!entered} className="relative z-10">
         {/* ===== Hero ===== */}
         <section className="mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 pt-14 sm:px-8 sm:pt-20 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pb-28 lg:pt-24">
           <div className="flex flex-col items-start">
@@ -434,7 +442,10 @@ export default function App() {
       </main>
 
       {/* ===== Footer ===== */}
-      <footer className="relative z-10 border-t border-brand-line-soft px-5 py-14 sm:px-8">
+      <footer
+        inert={!entered}
+        className="relative z-10 border-t border-brand-line-soft px-5 py-14 sm:px-8"
+      >
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div className="lg:col-span-2">

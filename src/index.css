@@ -58,6 +58,21 @@
   cursor: url('/cursor.png') 16 16, pointer;
 }
 
+/* Intro gate: a warm halo once the video finishes and the CTA is ready. */
+@keyframes intro-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(217, 155, 127, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(217, 155, 127, 0);
+  }
+}
+
+.intro-cta-ready {
+  animation: intro-pulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
 /* warm peach focus ring, matching the extension */
 :focus-visible {
   outline: 2px solid var(--color-brand-peach);
