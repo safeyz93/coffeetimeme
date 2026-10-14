@@ -7,8 +7,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
  * centre. Deliberately nothing else on screen — no wordmark, no copy, no
  * progress readout.
  *
- * Note: `intro.mp4` has no audio track at all, so the element stays muted and
- * there is nothing to unmute.
+ * Note: the clip carries no audio track, so the element stays muted.
  */
 
 /** Keep in sync with the transition classes on the curtain below. */
@@ -85,6 +84,13 @@ export default function IntroGate({ onEnter }: IntroGateProps) {
     video.playbackRate = PLAYBACK_RATE;
   };
 
+  // A failing <source> bubbles its error event up to the <video>. Only once
+  // every source is exhausted does the media element itself carry an error, so
+  // that is what tells a real failure apart from ordinary fallback negotiation.
+  const handleError = () => {
+    if (videoRef.current?.error) setIsReady(true);
+  };
+
   return (
     <div
       role="dialog"
@@ -96,7 +102,6 @@ export default function IntroGate({ onEnter }: IntroGateProps) {
     >
       <video
         ref={videoRef}
-        src="/intro.mp4"
         poster="/golden-retriever-bg.jpg"
         autoPlay={!reducedMotion}
         muted
@@ -104,9 +109,11 @@ export default function IntroGate({ onEnter }: IntroGateProps) {
         preload="auto"
         onLoadedMetadata={handleLoadedMetadata}
         onEnded={() => setIsReady(true)}
-        onError={() => setIsReady(true)}
+        onError={handleError}
         className="absolute inset-0 h-full w-full object-cover"
-      />
+      >
+        <source src="/intro.webm" type="video/webm" />
+      </video>
 
       {/* Brand-tinted scrim, so the CTA stays legible over any frame */}
       <div
