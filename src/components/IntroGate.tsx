@@ -8,6 +8,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
  * progress readout.
  *
  * Note: the clip carries no audio track, so the element stays muted.
+ *
+ * There is deliberately no `poster`. A poster is swapped out the instant the
+ * first frame decodes, which read as a brief photo flash before the video got
+ * going. Instead the curtain keeps its own brand background and the video is
+ * faded in only once it is genuinely playing. A still frame appears only when
+ * the clip cannot play at all.
  */
 
 /** Keep in sync with the transition classes on the curtain below. */
@@ -30,9 +36,17 @@ export default function IntroGate({ onEnter }: IntroGateProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const leavingRef = useRef(false);
 
-  const [isReady, setIsReady] = useState(false);
+  const [videoLive, setVideoLive] = useState(false);
+  const [unavailable, setUnavailable] = useState(false);
+  const [ended, setEnded] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+
+  /** The moment the CTA is allowed to become the loud, solid button. */
+  const isReady = ended || unavailable || reducedMotion;
+
+  /** Only show the still frame when there is no video to show at all. */
+  const showStill = !videoLive && (unavailable || reducedMotion);
 
   const handleEnter = useCallback(() => {
     if (leavingRef.current) return;
@@ -50,19 +64,21 @@ export default function IntroGate({ onEnter }: IntroGateProps) {
     };
   }, []);
 
-  // Reduced motion: do not autoplay at all, just show the poster frame.
+  // Reduced motion: do not autoplay at all — the still frame covers it.
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setReducedMotion(true);
-      setIsReady(true);
     }
   }, []);
 
   // Autoplay can be refused (or the clip can stall). Never leave the visitor
-  // staring at a dim button wondering whether the page is broken.
+  // staring at a dim button wondering whether the page is broken. readyState 0
+  // means not a single frame has been decoded yet, so only give up then.
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      if (videoRef.current?.paused) setIsReady(true);
+      if (videoRef.current && videoRef.current.readyState === 0) {
+        setUnavailable(true);
+      }
     }, AUTOPLAY_GRACE_MS);
     return () => window.clearTimeout(timer);
   }, []);
@@ -84,11 +100,14 @@ export default function IntroGate({ onEnter }: IntroGateProps) {
     video.playbackRate = PLAYBACK_RATE;
   };
 
+  /** Fires once the element has a frame to show; only then reveal it. */
+  const handlePlaying = () => setVideoLive(true);
+
   // A failing <source> bubbles its error event up to the <video>. Only once
   // every source is exhausted does the media element itself carry an error, so
   // that is what tells a real failure apart from ordinary fallback negotiation.
   const handleError = () => {
-    if (videoRef.current?.error) setIsReady(true);
+    if (videoRef.current?.error) setUnavailable(true);
   };
 
   return (
@@ -100,17 +119,29 @@ export default function IntroGate({ onEnter }: IntroGateProps) {
         leaving ? 'pointer-events-none scale-105 opacity-0' : 'scale-100 opacity-100'
       }`}
     >
+      {showStill && (
+        <img
+          src="/golden-retriever-bg.jpg"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
+
       <video
         ref={videoRef}
-        poster="/golden-retriever-bg.jpg"
         autoPlay={!reducedMotion}
         muted
         playsInline
         preload="auto"
         onLoadedMetadata={handleLoadedMetadata}
-        onEnded={() => setIsReady(true)}
+        onLoadedData={handlePlaying}
+        onPlaying={handlePlaying}
+        onEnded={() => setEnded(true)}
         onError={handleError}
-        className="absolute inset-0 h-full w-full object-cover"
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+          videoLive ? 'opacity-100' : 'opacity-0'
+        }`}
       >
         <source src="/intro.webm" type="video/webm" />
       </video>
