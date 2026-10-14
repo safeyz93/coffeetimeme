@@ -1,22 +1,77 @@
 @import "tailwindcss";
 
 @theme {
+  /* ===== fonts (unchanged) ===== */
   --font-syne: 'Syne', sans-serif;
   --font-geist: 'Geist', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* ===== brand palette — synced with the Chrome extension =====
+     Named `--color-brand-*` deliberately: a bare `--color-slate`
+     would shadow Tailwind's built-in slate scale. */
+
+  /* the 4 brand colors */
+  --color-brand-teal: #0F3040;
+  --color-brand-slate: #464858;
+  --color-brand-terracotta: #A56F63;
+  --color-brand-peach: #D99B7F;
+
+  /* surfaces (derived shades of teal) */
+  --color-brand-bg: #0B2331;
+  --color-brand-panel: #0F3040;
+  --color-brand-panel2: #153C4E;
+
+  /* lines (derived from slate) */
+  --color-brand-line: rgba(70, 72, 88, 0.9);
+  --color-brand-line-soft: rgba(70, 72, 88, 0.45);
+  --color-brand-line-hover: #5A5C6E;
+
+  /* type */
+  --color-brand-text: #F1E9E3;
+  --color-brand-muted: #A7A9B8;
+  --color-brand-faint: #858797;
+
+  /* semantic states */
+  --color-brand-alert: #A56F63;
+  --color-brand-alert-strong: #D2725C;
+  --color-brand-alert-text: #E5A48D;
+  --color-brand-idle-ink: #8FA3B8;
+
+  /* shape & motion */
+  --radius-brand: 9px;
+  --radius-brand-lg: 12px;
+  --ease-brand: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 ::selection {
-  background: #ff6b35;
-  color: #000;
+  background: var(--color-brand-peach);
+  color: var(--color-brand-bg);
 }
 
 .grid-bg {
-  background-image: linear-gradient(rgba(238, 237, 233, 0.04) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(238, 237, 233, 0.04) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(241, 233, 227, 0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(241, 233, 227, 0.04) 1px, transparent 1px);
   background-size: 80px 80px;
 }
 
 .barista-cursor {
   cursor: url('/cursor.png') 16 16, pointer;
+}
+
+/* warm peach focus ring, matching the extension */
+:focus-visible {
+  outline: 2px solid var(--color-brand-peach);
+  outline-offset: 2px;
+}
+
+/* honour the OS reduced-motion preference, like the extension does */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
